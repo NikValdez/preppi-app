@@ -9,6 +9,7 @@ import { createDrawerNavigator } from 'react-navigation-drawer'
 import { createAppContainer } from 'react-navigation'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import MyCalendar from '../screens/MyCalendar'
+import { FontAwesome } from '@expo/vector-icons'
 
 const stack = createStackNavigator(
   {
@@ -26,10 +27,41 @@ const stack = createStackNavigator(
   }
 )
 
-const Navigator = createBottomTabNavigator({
-  Home: stack,
-  MyCourses: MyCourses,
-  MyCalendar: MyCalendar
-})
+const Navigator = createBottomTabNavigator(
+  {
+    Home: {
+      screen: stack,
+      navigationOptions: {
+        tabBarLabel: 'Home',
+        tabBarIcon: <FontAwesome name="home" size={30} color="#fff" />
+      }
+    },
+    MyCourses: {
+      screen: MyCourses,
+      navigationOptions: {
+        tabBarLabel: 'My Courses',
+        tabBarIcon: <FontAwesome name="user" size={30} color="#fff" />
+      }
+    },
+    MyCalendar: {
+      screen: MyCalendar,
+      navigationOptions: {
+        tabBarLabel: 'My Calendar',
+        tabBarIcon: <FontAwesome name="calendar" size={27} color="#fff" />
+      }
+    }
+  },
+  {
+    tabBarOptions: {
+      labelStyle: {
+        color: '#fff',
+        marginBottom: -10
+      },
+      style: {
+        backgroundColor: '#2f72da'
+      }
+    }
+  }
+)
 
 export default createAppContainer(Navigator)

@@ -31,6 +31,9 @@ function App() {
           // leftComponent={{ icon: 'menu', color: '#fff' }}
           centerComponent={{ text: 'Syllabi', style: { color: '#fff' } }}
           // rightComponent={<Button onPress={removeToken} title="logout" />}
+          containerStyle={{
+            backgroundColor: '#2f72da'
+          }}
         />
         <Navigator />
       </ApolloProvider>

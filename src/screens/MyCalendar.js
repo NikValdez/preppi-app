@@ -4,11 +4,19 @@ import {
   View,
   FlatList,
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
+  Modal
 } from 'react-native'
 import { useQuery } from '@apollo/react-hooks'
 import { gql } from 'apollo-boost'
-import { Header, Button, ListItem, Card, Tooltip } from 'react-native-elements'
+import {
+  Header,
+  Button,
+  ListItem,
+  Card,
+  Tooltip,
+  Avatar
+} from 'react-native-elements'
 import { getToken, signout } from '../utils'
 import { NavigationEvents } from 'react-navigation'
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars'
@@ -48,6 +56,9 @@ const CURRENT_USER_QUERY_COURSES_EVENTS = gql`
             end
             color
             upload
+            course {
+              title
+            }
           }
           announcements {
             id
@@ -73,7 +84,12 @@ function MyCalendar({ navigation }) {
     const obj = {}
     for (const key of calEvents) {
       obj[format(new Date(key.end), 'yyyy-MM-dd')] = [
-        { title: key.title, description: key.description }
+        {
+          title: key.title,
+          description: key.description,
+          color: key.color,
+          courseTitle: key.course.title
+        }
       ]
     }
     return obj
@@ -83,6 +99,12 @@ function MyCalendar({ navigation }) {
     acc[key] = { marked: true }
     return acc
   }, {})
+
+  console.log(isVisible)
+
+  handleOverlay = () => {
+    setIsVisible(false)
+  }
 
   return (
     <View style={styles.container}>
@@ -115,13 +137,25 @@ function MyCalendar({ navigation }) {
               <Tooltip
                 height={60}
                 width={320}
-                withOverlay
+                overlayColor="#dbdce1"
                 containerStyle={styles.tooltip}
                 pointerColor={'transparent'}
-                popover={<HTML html={item.description} />}
+                popover={
+                  <View style={styles.tooltipDisplay}>
+                    <HTML html={item.description} />
+                  </View>
+                }
               >
                 <Card>
-                  <Text>{item.title}</Text>
+                  <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                    <Avatar
+                      rounded
+                      title={item.courseTitle[0]}
+                      overlayContainerStyle={{ backgroundColor: item.color }}
+                      titleStyle={{ color: 'black' }}
+                    />
+                    <Text style={{ marginLeft: 10 }}>{item.title}</Text>
+                  </View>
                 </Card>
               </Tooltip>
             </>
@@ -153,11 +187,9 @@ function MyCalendar({ navigation }) {
         refreshControl={null}
         // agenda theme
         theme={{
-          // ...calendarTheme,
-          agendaDayTextColor: 'yellow',
-          agendaDayNumColor: 'green',
-          agendaTodayColor: 'red'
-          // agendaKnobColor: 'blue'
+          selectedDayBackgroundColor: '#2f72da',
+          // selectedDayTextColor: '#2f72da',
+          dotColor: '#2f72da'
         }}
       />
     </View>
@@ -170,8 +202,16 @@ const styles = StyleSheet.create({
   },
   tooltip: {
     backgroundColor: 'transparent',
-    width: 300,
-    marginTop: 35
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  tooltipDisplay: {
+    backgroundColor: 'transparent',
+    width: '100%',
+    height: '100%',
+    flexGrow: 1,
+    flex: 1
   }
 })
 
