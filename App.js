@@ -9,6 +9,7 @@ import { setContext } from 'apollo-link-context'
 import { getToken, signout } from './src/utils'
 import { AsyncStorage } from 'react-native'
 import { Header, Button } from 'react-native-elements'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
 const httpLink = new HttpLink({ uri: 'http://localhost:4444' })
 
@@ -29,8 +30,15 @@ function App() {
       <ApolloProvider client={client}>
         <Header
           // leftComponent={{ icon: 'menu', color: '#fff' }}
-          centerComponent={{ text: 'Syllabi', style: { color: '#fff' } }}
-          // rightComponent={<Button onPress={removeToken} title="logout" />}
+          centerComponent={{
+            text: 'Syllabi',
+            style: { color: '#fff', fontSize: 20 }
+          }}
+          rightComponent={
+            <TouchableOpacity>
+              <Text style={{ color: '#fff' }}>Logout</Text>
+            </TouchableOpacity>
+          }
           containerStyle={{
             backgroundColor: '#2f72da'
           }}

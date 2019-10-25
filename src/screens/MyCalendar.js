@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   Text,
   View,
   FlatList,
   StyleSheet,
   TouchableOpacity,
-  Modal
+  ScrollView,
+  ActivityIndicator
 } from 'react-native'
 import { useQuery } from '@apollo/react-hooks'
 import { gql } from 'apollo-boost'
@@ -22,6 +23,8 @@ import { NavigationEvents } from 'react-navigation'
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars'
 import { format } from 'date-fns'
 import HTML from 'react-native-render-html'
+import { FontAwesome } from '@expo/vector-icons'
+import { getDay } from 'date-fns/esm'
 
 const CURRENT_USER_QUERY_COURSES_EVENTS = gql`
   query {
@@ -73,10 +76,16 @@ const CURRENT_USER_QUERY_COURSES_EVENTS = gql`
 
 function MyCalendar({ navigation }) {
   const { loading, error, data } = useQuery(CURRENT_USER_QUERY_COURSES_EVENTS)
-  const [isVisible, setIsVisible] = useState(false)
-  if (loading) return <Text>Loading...</Text>
+  const [expand, setExpand] = useState(false)
+  if (loading)
+    return (
+      <View style={[styles.container, styles.horizontal]}>
+        <ActivityIndicator size="large" color="#2f72da" />
+      </View>
+    )
   if (error) return <Text>`Error! ${error.message}`</Text>
   const courseData = data.me.myCourses.map(course => course.courses)
+
   const eventData = courseData.map(course => course.events)
   const calEvents = [].concat.apply([], eventData)
 
@@ -88,7 +97,8 @@ function MyCalendar({ navigation }) {
           title: key.title,
           description: key.description,
           color: key.color,
-          courseTitle: key.course.title
+          courseTitle: key.course.title,
+          end: key.end
         }
       ]
     }
@@ -100,11 +110,7 @@ function MyCalendar({ navigation }) {
     return acc
   }, {})
 
-  console.log(isVisible)
-
-  handleOverlay = () => {
-    setIsVisible(false)
-  }
+  // console.log(events())
 
   return (
     <View style={styles.container}>
@@ -130,40 +136,60 @@ function MyCalendar({ navigation }) {
         //   console.log('day changed')
         // }}
         // initially selected day
-        selected={new Date()}
+        selected={'10/04/2019'}
         renderItem={(item, firstItemInDay) => {
-          return (
-            <>
-              <Tooltip
-                height={60}
-                width={320}
-                overlayColor="#dbdce1"
-                containerStyle={styles.tooltip}
-                pointerColor={'transparent'}
-                popover={
-                  <View style={styles.tooltipDisplay}>
-                    <HTML html={item.description} />
-                  </View>
-                }
-              >
-                <Card>
-                  <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-                    <Avatar
-                      rounded
-                      title={item.courseTitle[0]}
-                      overlayContainerStyle={{ backgroundColor: item.color }}
-                      titleStyle={{ color: 'black' }}
-                    />
-                    <Text style={{ marginLeft: 10 }}>{item.title}</Text>
-                  </View>
-                </Card>
-              </Tooltip>
-            </>
-          )
+          return <View />
         }}
         // specify how each date should be rendered. day can be undefined if the item is not first in that day.
         renderDay={(day, item) => {
-          return <View />
+          return (
+            <>
+              <View style={styles.dateStyle}>
+                <Text style={styles.dateNumber}>
+                  {format(new Date(item.end), 'dd')}
+                </Text>
+                <Text style={styles.dateDay}>
+                  {format(new Date(item.end), 'EEE')}
+                </Text>
+              </View>
+              <Card containerStyle={{ width: '80%' }}>
+                <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+                  <Avatar
+                    rounded
+                    title={item.courseTitle[0]}
+                    overlayContainerStyle={{ backgroundColor: item.color }}
+                    titleStyle={{ color: 'black' }}
+                  />
+                  <Text style={{ marginLeft: 10 }}>{item.title}</Text>
+                </View>
+                {item.description.length > 100 && !expand ? (
+                  <View>
+                    <HTML html={item.description.substring(0, 100)} />
+
+                    <Tooltip
+                      popover={<HTML html={item.description} />}
+                      overlayColor="#dbdce1"
+                      backgroundColor="transparent"
+                      withPointer={false}
+                      width={300}
+                      height={100}
+                    >
+                      <FontAwesome
+                        style={{ textAlign: 'center' }}
+                        name="ellipsis-h"
+                        size={30}
+                        color="#9e9e9ea6"
+                      />
+                    </Tooltip>
+                  </View>
+                ) : (
+                  <ScrollView>
+                    <HTML html={item.description} />
+                  </ScrollView>
+                )}
+              </Card>
+            </>
+          )
         }}
         // specify how empty date content with no items should be rendered
         renderEmptyDate={() => {
@@ -198,13 +224,17 @@ function MyCalendar({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    justifyContent: 'center'
   },
   tooltip: {
     backgroundColor: 'transparent',
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    position: 'absolute',
+    textAlign: 'center',
+    top: 10
   },
   tooltipDisplay: {
     backgroundColor: 'transparent',
@@ -212,6 +242,23 @@ const styles = StyleSheet.create({
     height: '100%',
     flexGrow: 1,
     flex: 1
+  },
+  horizontal: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 10
+  },
+  dateStyle: {
+    margin: 5,
+    marginTop: 25
+  },
+  dateNumber: {
+    fontSize: 25,
+    color: '#9e9e9ea6'
+  },
+  dateDay: {
+    fontSize: 15,
+    color: '#9e9e9ea6'
   }
 })
 

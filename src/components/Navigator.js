@@ -30,7 +30,7 @@ const stack = createStackNavigator(
 const Navigator = createBottomTabNavigator(
   {
     Home: {
-      screen: stack,
+      screen: MyCalendar,
       navigationOptions: {
         tabBarLabel: 'Home',
         tabBarIcon: <FontAwesome name="home" size={30} color="#fff" />
