@@ -8,7 +8,7 @@ import {
 } from 'react-native'
 import { useQuery } from '@apollo/react-hooks'
 import { gql } from 'apollo-boost'
-import { Header, Button, ListItem } from 'react-native-elements'
+import { Header, Button, ListItem, Divider, Card } from 'react-native-elements'
 import { getToken, signout } from '../utils'
 import { NavigationEvents } from 'react-navigation'
 
@@ -47,6 +47,10 @@ function MyCourses({ navigation }) {
 
   return (
     <View>
+      <Text h1 style={styles.title}>
+        My Courses
+      </Text>
+      <Divider style={{ backgroundColor: '#2f72da' }} />
       <FlatList
         data={courseData}
         keyExtractor={item => item.courses.id}
@@ -57,7 +61,9 @@ function MyCourses({ navigation }) {
                 navigation.navigate('SingleCourse', { id: item.courses.id })
               }
             >
-              <ListItem chevron title={item.courses.title} />
+              <Card containerStyle={{ borderColor: item.courses.color }}>
+                <ListItem chevron title={item.courses.title} />
+              </Card>
             </TouchableOpacity>
           )
         }}
@@ -71,6 +77,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 50
+  },
+  title: {
+    textAlign: 'center',
+    margin: 20,
+    fontSize: 20
   }
 })
 

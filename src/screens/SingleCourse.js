@@ -1,7 +1,13 @@
 import React, { useState } from 'react'
-import { Text, View, FlatList, ScrollView, Dimensions } from 'react-native'
+import {
+  Text,
+  View,
+  FlatList,
+  ScrollView,
+  ActivityIndicator
+} from 'react-native'
 import { useQuery } from '@apollo/react-hooks'
-import { ListItem, Divider } from 'react-native-elements'
+import { ListItem, Divider, Card } from 'react-native-elements'
 import { getToken } from '../../src/utils'
 import HTML from 'react-native-render-html'
 import { gql } from 'apollo-boost'
@@ -48,7 +54,12 @@ function SingleCourse({ navigation }) {
   const { loading, error, data } = useQuery(SINGLE_COURSE_QUERY, {
     variables: { id: navigation.getParam('id') }
   })
-  if (loading) return <Text>Loading ...</Text>
+  if (loading)
+    return (
+      <View>
+        <ActivityIndicator size="large" color="#2f72da" />
+      </View>
+    )
   if (error) return <Text>`Error! ${error.message}`</Text>
 
   const course = data.course
@@ -58,14 +69,22 @@ function SingleCourse({ navigation }) {
   })
 
   return (
-    <View>
-      <Text>Course Title: {data.course.title}</Text>
-      <Text>Instructor: {data.course.courseCode}</Text>
-      <Text>Room: {data.course.credits}</Text>
-      <Text>Description:</Text>
-      <HTML html={data.course.description} />
-      <Divider />
-      <Text>Assignments:</Text>
+    <View style={{ flex: 1 }}>
+      <Card
+        containerStyle={{ borderColor: data.course.color, marginBottom: 20 }}
+      >
+        <Text>Course Name: {data.course.title}</Text>
+        <Text>Instructor: {data.course.courseCode}</Text>
+        <Text>Room: {data.course.credits}</Text>
+        <Text>Description:</Text>
+        {data.course.description.length < 100 ? (
+          <HTML html={data.course.description} />
+        ) : (
+          <HTML html={data.course.description.substring(0, 100) + '...'} />
+        )}
+      </Card>
+
+      <Text style={{ textAlign: 'center', fontSize: 18 }}>Assignments</Text>
       <ScrollView>
         <FlatList
           data={eventsByDate}

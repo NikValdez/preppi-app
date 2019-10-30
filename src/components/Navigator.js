@@ -5,7 +5,7 @@ import Signin from '../screens/Signin'
 import SingleCourse from '../screens/SingleCourse'
 import Me from '../screens/Me'
 import { createStackNavigator } from 'react-navigation-stack'
-import { createDrawerNavigator } from 'react-navigation-drawer'
+
 import { createAppContainer } from 'react-navigation'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import MyCalendar from '../screens/MyCalendar'
@@ -16,10 +16,8 @@ const stack = createStackNavigator(
     Home: Signin,
 
     Signin: Signin,
-    Courses: Courses,
-    MyCourses: MyCourses,
-    SingleCourse: SingleCourse,
-    MyCalendar: MyCalendar
+
+    SingleCourse: SingleCourse
   },
 
   {
@@ -30,7 +28,7 @@ const stack = createStackNavigator(
 const Navigator = createBottomTabNavigator(
   {
     Home: {
-      screen: MyCalendar,
+      screen: stack,
       navigationOptions: {
         tabBarLabel: 'Home',
         tabBarIcon: <FontAwesome name="home" size={30} color="#fff" />
@@ -51,6 +49,7 @@ const Navigator = createBottomTabNavigator(
       }
     }
   },
+
   {
     tabBarOptions: {
       labelStyle: {
