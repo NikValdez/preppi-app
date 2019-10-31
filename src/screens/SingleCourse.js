@@ -7,10 +7,12 @@ import {
   ActivityIndicator
 } from 'react-native'
 import { useQuery } from '@apollo/react-hooks'
-import { ListItem, Divider, Card } from 'react-native-elements'
+import { ListItem, Divider, Card, Tooltip } from 'react-native-elements'
 import { getToken } from '../../src/utils'
 import HTML from 'react-native-render-html'
 import { gql } from 'apollo-boost'
+import { FontAwesome } from '@expo/vector-icons'
+import { format } from 'date-fns'
 
 const SINGLE_COURSE_QUERY = gql`
   query SINGLE_COURSE_QUERY($id: ID!) {
@@ -80,7 +82,24 @@ function SingleCourse({ navigation }) {
         {data.course.description.length < 100 ? (
           <HTML html={data.course.description} />
         ) : (
-          <HTML html={data.course.description.substring(0, 100) + '...'} />
+          <>
+            <HTML html={data.course.description.substring(0, 100)} />
+            <Tooltip
+              popover={<HTML html={data.course.description} />}
+              overlayColor="#dbdce1"
+              backgroundColor="transparent"
+              withPointer={false}
+              width={300}
+              height={100}
+            >
+              <FontAwesome
+                style={{ textAlign: 'center' }}
+                name="ellipsis-h"
+                size={30}
+                color="#9e9e9ea6"
+              />
+            </Tooltip>
+          </>
         )}
       </Card>
 
@@ -91,12 +110,23 @@ function SingleCourse({ navigation }) {
           keyExtractor={item => item.id}
           renderItem={({ item }) => {
             return (
-              <ListItem
-                roundAvatar
-                title={item.title}
-                subtitle={<HTML html={item.description} />}
-                bottomDivider
-              />
+              <>
+                <ListItem
+                  roundAvatar
+                  title={
+                    <View>
+                      <Text style={{ textAlign: 'right' }}>
+                        {format(new Date(item.end), 'MM/dd/yyyy')}
+                      </Text>
+                      <Text style={{ textAlign: 'center', fontSize: 18 }}>
+                        {item.title}
+                      </Text>
+                    </View>
+                  }
+                  subtitle={<HTML html={item.description} />}
+                  bottomDivider
+                />
+              </>
             )
           }}
         />
