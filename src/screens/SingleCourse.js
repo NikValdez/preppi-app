@@ -4,10 +4,11 @@ import {
   View,
   FlatList,
   ScrollView,
-  ActivityIndicator
+  ActivityIndicator,
+  TouchableOpacity
 } from 'react-native'
 import { useQuery } from '@apollo/react-hooks'
-import { ListItem, Divider, Card, Tooltip } from 'react-native-elements'
+import { ListItem, Divider, Card, Tooltip, Header } from 'react-native-elements'
 import { getToken } from '../../src/utils'
 import HTML from 'react-native-render-html'
 import { gql } from 'apollo-boost'
@@ -72,13 +73,40 @@ function SingleCourse({ navigation }) {
 
   return (
     <View style={{ flex: 1 }}>
+      <Header
+        // leftComponent={{ icon: 'menu', color: '#fff' }}
+        centerComponent={{
+          text: 'Syllabi',
+          style: { color: '#fff', fontSize: 20 }
+        }}
+        rightComponent={
+          <TouchableOpacity>
+            <Text style={{ color: '#fff' }}>Logout</Text>
+          </TouchableOpacity>
+        }
+        containerStyle={{
+          backgroundColor: '#2f72da'
+        }}
+      />
       <Card
         containerStyle={{ borderColor: data.course.color, marginBottom: 20 }}
       >
-        <Text>Course Name: {data.course.title}</Text>
-        <Text>Instructor: {data.course.courseCode}</Text>
-        <Text>Room: {data.course.credits}</Text>
-        <Text>Description:</Text>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+          <Text style={{ fontWeight: 'bold' }}>Course Name</Text>
+          <Text style={{ marginLeft: 'auto' }}>{data.course.title}</Text>
+        </View>
+        <Divider />
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+          <Text style={{ fontWeight: 'bold' }}>Instructor</Text>
+          <Text style={{ marginLeft: 'auto' }}>{data.course.courseCode}</Text>
+        </View>
+        <Divider />
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+          <Text style={{ fontWeight: 'bold' }}>Room</Text>
+          <Text style={{ marginLeft: 'auto' }}>{data.course.credits}</Text>
+        </View>
+        <Divider />
+        <Text style={{ fontWeight: 'bold' }}>Description</Text>
         {data.course.description.length < 100 ? (
           <HTML html={data.course.description} />
         ) : (
@@ -96,14 +124,23 @@ function SingleCourse({ navigation }) {
                 style={{ textAlign: 'center' }}
                 name="ellipsis-h"
                 size={30}
-                color="#9e9e9ea6"
+                color="#dbdce1"
               />
             </Tooltip>
           </>
         )}
       </Card>
 
-      <Text style={{ textAlign: 'center', fontSize: 18 }}>Assignments</Text>
+      <Text
+        style={{
+          textAlign: 'center',
+          fontSize: 18,
+          fontWeight: 'bold'
+        }}
+      >
+        Assignments
+      </Text>
+
       <ScrollView>
         <FlatList
           data={eventsByDate}
@@ -123,7 +160,30 @@ function SingleCourse({ navigation }) {
                       </Text>
                     </View>
                   }
-                  subtitle={<HTML html={item.description} />}
+                  subtitle={
+                    item.description.length < 100 ? (
+                      <HTML html={item.description} />
+                    ) : (
+                      <>
+                        <HTML html={item.description.substring(0, 100)} />
+                        <Tooltip
+                          popover={<HTML html={item.description} />}
+                          overlayColor="#dbdce1"
+                          backgroundColor="transparent"
+                          withPointer={false}
+                          width={300}
+                          height={100}
+                        >
+                          <FontAwesome
+                            style={{ textAlign: 'center' }}
+                            name="ellipsis-h"
+                            size={30}
+                            color="#dbdce1"
+                          />
+                        </Tooltip>
+                      </>
+                    )
+                  }
                   bottomDivider
                 />
               </>

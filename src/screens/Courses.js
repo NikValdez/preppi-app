@@ -26,6 +26,21 @@ export default function Courses(props) {
 
   return (
     <View>
+      <Header
+        // leftComponent={{ icon: 'menu', color: '#fff' }}
+        centerComponent={{
+          text: 'Syllabi',
+          style: { color: '#fff', fontSize: 20 }
+        }}
+        rightComponent={
+          <TouchableOpacity>
+            <Text style={{ color: '#fff' }}>Logout</Text>
+          </TouchableOpacity>
+        }
+        containerStyle={{
+          backgroundColor: '#2f72da'
+        }}
+      />
       <FlatList
         data={data.courses}
         keyExtractor={item => item.id}

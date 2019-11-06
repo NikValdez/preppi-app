@@ -11,6 +11,7 @@ import { gql } from 'apollo-boost'
 import { Header, Button, ListItem, Divider, Card } from 'react-native-elements'
 import { getToken, signout } from '../utils'
 import { NavigationEvents } from 'react-navigation'
+import { FontAwesome } from '@expo/vector-icons'
 
 const MY_COURSES_QUERY = gql`
   query {
@@ -47,10 +48,24 @@ function MyCourses({ navigation }) {
 
   return (
     <View>
+      <Header
+        // leftComponent={{ icon: 'menu', color: '#fff' }}
+        centerComponent={{
+          text: 'Syllabi',
+          style: { color: '#fff', fontSize: 20 }
+        }}
+        rightComponent={
+          <TouchableOpacity>
+            <Text style={{ color: '#fff' }}>Logout</Text>
+          </TouchableOpacity>
+        }
+        containerStyle={{
+          backgroundColor: '#2f72da'
+        }}
+      />
       <Text h1 style={styles.title}>
-        My Courses
+        <FontAwesome name="user" size={40} color="#2f72da" />{' '}
       </Text>
-      <Divider style={{ backgroundColor: '#2f72da' }} />
       <FlatList
         data={courseData}
         keyExtractor={item => item.courses.id}

@@ -13,7 +13,6 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 
 const httpLink = new HttpLink({ uri: 'http://localhost:4444' })
 
-// const link = new HttpLink({ uri: 'http://localhost:4444' })
 const link = httpLink
 const cache = new InMemoryCache()
 const client = new ApolloClient({
@@ -28,21 +27,6 @@ function App() {
   return (
     <View style={{ flex: 1 }}>
       <ApolloProvider client={client}>
-        <Header
-          // leftComponent={{ icon: 'menu', color: '#fff' }}
-          centerComponent={{
-            text: 'Syllabi',
-            style: { color: '#fff', fontSize: 20 }
-          }}
-          rightComponent={
-            <TouchableOpacity>
-              <Text style={{ color: '#fff' }}>Logout</Text>
-            </TouchableOpacity>
-          }
-          containerStyle={{
-            backgroundColor: '#2f72da'
-          }}
-        />
         <Navigator />
       </ApolloProvider>
     </View>

@@ -15,8 +15,6 @@ const stack = createStackNavigator(
   {
     Home: Signin,
 
-    Signin: Signin,
-
     SingleCourse: SingleCourse
   },
 
@@ -27,13 +25,6 @@ const stack = createStackNavigator(
 
 const Navigator = createBottomTabNavigator(
   {
-    Home: {
-      screen: stack,
-      navigationOptions: {
-        tabBarLabel: 'Home',
-        tabBarIcon: <FontAwesome name="home" size={30} color="#fff" />
-      }
-    },
     MyCourses: {
       screen: MyCourses,
       navigationOptions: {
@@ -47,11 +38,19 @@ const Navigator = createBottomTabNavigator(
         tabBarLabel: 'My Calendar',
         tabBarIcon: <FontAwesome name="calendar" size={27} color="#fff" />
       }
+    },
+    Home: {
+      screen: stack,
+      navigationOptions: {
+        // tabBarVisible: false,
+        tabBarOnPress: () => {}
+      }
     }
   },
 
   {
     tabBarOptions: {
+      showLabel: false,
       labelStyle: {
         color: '#fff',
         marginBottom: -10

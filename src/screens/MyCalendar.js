@@ -16,7 +16,8 @@ import {
   ListItem,
   Card,
   Tooltip,
-  Avatar
+  Avatar,
+  PricingCard
 } from 'react-native-elements'
 import { getToken, signout } from '../utils'
 import { NavigationEvents } from 'react-navigation'
@@ -114,6 +115,21 @@ function MyCalendar({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <Header
+        // leftComponent={{ icon: 'menu', color: '#fff' }}
+        centerComponent={{
+          text: 'Syllabi',
+          style: { color: '#fff', fontSize: 20 }
+        }}
+        rightComponent={
+          <TouchableOpacity>
+            <Text style={{ color: '#fff' }}>Logout</Text>
+          </TouchableOpacity>
+        }
+        containerStyle={{
+          backgroundColor: '#2f72da'
+        }}
+      />
       <Agenda
         // the list of items that have to be displayed in agenda. If you want to render item as empty date
         // the value of date key kas to be an empty array []. If there exists no value for date key it is
@@ -121,11 +137,11 @@ function MyCalendar({ navigation }) {
         items={events()}
         // callback that gets called when items for a certain month should be loaded (month became visible)
         loadItemsForMonth={month => {
-          console.log('trigger items loading')
+          // console.log('trigger items loading')
         }}
         // callback that fires when the calendar is opened or closed
         onCalendarToggled={calendarOpened => {
-          console.log(calendarOpened)
+          // console.log(calendarOpened)
         }}
         // callback that gets called on day press
         // onDayPress={day => {
@@ -136,7 +152,7 @@ function MyCalendar({ navigation }) {
         //   console.log('day changed')
         // }}
         // initially selected day
-        selected={'10/04/2019'}
+        selected={new Date()}
         renderItem={(item, firstItemInDay) => {
           return <View />
         }}
@@ -178,7 +194,7 @@ function MyCalendar({ navigation }) {
                         style={{ textAlign: 'center' }}
                         name="ellipsis-h"
                         size={30}
-                        color="#9e9e9ea6"
+                        color="#dbdce1"
                       />
                     </Tooltip>
                   </View>
@@ -197,7 +213,13 @@ function MyCalendar({ navigation }) {
         }}
         // specify what should be rendered instead of ActivityIndicator
         renderEmptyData={() => {
-          return <Text>Nothing for this date</Text>
+          return (
+            <Card>
+              <Text style={{ textAlign: 'center', fontSize: 20 }}>
+                No assignments on this date
+              </Text>
+            </Card>
+          )
         }}
         // specify your item comparison function for increased performance
         rowHasChanged={(r1, r2) => {
