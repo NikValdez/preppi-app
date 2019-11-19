@@ -12,6 +12,7 @@ import { Header, Button, ListItem, Divider, Card } from 'react-native-elements'
 import { getToken, signout } from '../utils'
 import { NavigationEvents } from 'react-navigation'
 import { FontAwesome } from '@expo/vector-icons'
+import Signout from '../components/Signout'
 
 const MY_COURSES_QUERY = gql`
   query {
@@ -54,11 +55,7 @@ function MyCourses({ navigation }) {
           text: 'Syllabi',
           style: { color: '#fff', fontSize: 20 }
         }}
-        rightComponent={
-          <TouchableOpacity>
-            <Text style={{ color: '#fff' }}>Logout</Text>
-          </TouchableOpacity>
-        }
+        rightComponent={<Signout />}
         containerStyle={{
           backgroundColor: '#2f72da'
         }}
@@ -105,3 +102,4 @@ MyCourses.navigationOptions = {
 }
 
 export default MyCourses
+export { MY_COURSES_QUERY }

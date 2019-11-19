@@ -25,7 +25,7 @@ import { Calendar, CalendarList, Agenda } from 'react-native-calendars'
 import { format } from 'date-fns'
 import HTML from 'react-native-render-html'
 import { FontAwesome } from '@expo/vector-icons'
-import { getDay } from 'date-fns/esm'
+import Signout from '../components/Signout'
 
 const CURRENT_USER_QUERY_COURSES_EVENTS = gql`
   query {
@@ -121,11 +121,7 @@ function MyCalendar({ navigation }) {
           text: 'Syllabi',
           style: { color: '#fff', fontSize: 20 }
         }}
-        rightComponent={
-          <TouchableOpacity>
-            <Text style={{ color: '#fff' }}>Logout</Text>
-          </TouchableOpacity>
-        }
+        rightComponent={<Signout />}
         containerStyle={{
           backgroundColor: '#2f72da'
         }}

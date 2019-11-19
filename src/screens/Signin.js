@@ -9,6 +9,7 @@ import { withNavigation } from 'react-navigation'
 import { AsyncStorage } from 'react-native'
 import { FontAwesome } from '@expo/vector-icons'
 import Syllabi from '../images/syllabi.png'
+import { MY_COURSES_QUERY } from './MyCourses'
 
 const SIGNIN_MUTATION = gql`
   mutation SIGNIN_MUTATION($email: String!, $password: String!) {
@@ -22,34 +23,28 @@ const SIGNIN_MUTATION = gql`
 
 class Signin extends Component {
   state = {
-    email: '',
-    password: ''
+    email: 'nikcochran@gmail.com',
+    password: 'password'
   }
 
-  async componentDidMount() {
-    try {
-      let token = await AsyncStorage.getItem('token')
-      if (token != null) {
-        console.log(token)
-        this.props.navigation.navigate('MyCourses')
-      } else {
-        this.props.navigation.navigate('Home')
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  submitForm = async e => {
-    e.preventDefault()
+  submitForm = async () => {
+    // e.preventDefault()
     const response = await this.props.mutate({
-      variables: this.state
+      variables: this.state,
+      awaitRefetchQueries: true,
+
+      refetchQueries: () => [{ query: MY_COURSES_QUERY }]
     })
-    const { payload, error } = response.data.signin
-    // // console.log(response.data.signin.id)
-    await login(response.data.signin.id)
-    this.setState({ email: '', password: '' })
-    this.props.navigation.navigate('MyCourses')
+
+    await this.props.navigation.navigate('MyCourses')
+
+    // const { payload, error } = response.data.signin
+    // console.log(response.data.signin.id)
+
+    // await login(response.data.signin.id)
+
+    // this.setState({ email: '', password: '' })
+    // this.props.navigation.navigate('MyCourses')
   }
 
   render() {

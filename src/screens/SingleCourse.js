@@ -14,6 +14,7 @@ import HTML from 'react-native-render-html'
 import { gql } from 'apollo-boost'
 import { FontAwesome } from '@expo/vector-icons'
 import { format } from 'date-fns'
+import Signout from '../components/Signout'
 
 const SINGLE_COURSE_QUERY = gql`
   query SINGLE_COURSE_QUERY($id: ID!) {
@@ -79,11 +80,7 @@ function SingleCourse({ navigation }) {
           text: 'Syllabi',
           style: { color: '#fff', fontSize: 20 }
         }}
-        rightComponent={
-          <TouchableOpacity>
-            <Text style={{ color: '#fff' }}>Logout</Text>
-          </TouchableOpacity>
-        }
+        rightComponent={<Signout />}
         containerStyle={{
           backgroundColor: '#2f72da'
         }}

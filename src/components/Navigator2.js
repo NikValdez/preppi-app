@@ -14,6 +14,7 @@ import { FontAwesome } from '@expo/vector-icons'
 const stack = createStackNavigator(
   {
     Home: Signin,
+
     SingleCourse: SingleCourse
   },
 
@@ -24,13 +25,6 @@ const stack = createStackNavigator(
 
 const Navigator = createBottomTabNavigator(
   {
-    Home: {
-      screen: stack,
-      navigationOptions: {
-        tabBarVisible: false,
-        tabBarOnPress: () => {}
-      }
-    },
     MyCourses: {
       screen: MyCourses,
       navigationOptions: {
@@ -45,8 +39,15 @@ const Navigator = createBottomTabNavigator(
         tabBarIcon: <FontAwesome name="calendar" size={27} color="#fff" />
       }
     },
+    Home: {
+      screen: stack,
+      navigationOptions: {
+        // tabBarVisible: false,
+        tabBarOnPress: () => {}
+      }
+    },
 
-    initialRouteName: 'Home'
+    initialRouteName: 'MyCourses'
   },
 
   {
