@@ -8,8 +8,15 @@ import {
   TouchableOpacity
 } from 'react-native'
 import { useQuery } from '@apollo/react-hooks'
-import { ListItem, Divider, Card, Tooltip, Header } from 'react-native-elements'
-import { getToken } from '../../src/utils'
+import {
+  ListItem,
+  Divider,
+  Card,
+  Tooltip,
+  Header,
+  Button,
+  Overlay
+} from 'react-native-elements'
 import HTML from 'react-native-render-html'
 import { gql } from 'apollo-boost'
 import { FontAwesome } from '@expo/vector-icons'
@@ -55,6 +62,7 @@ const SINGLE_COURSE_QUERY = gql`
 `
 
 function SingleCourse({ navigation }) {
+  const [visible, setVisible] = useState(false)
   const { loading, error, data } = useQuery(SINGLE_COURSE_QUERY, {
     variables: { id: navigation.getParam('id') }
   })
@@ -81,12 +89,24 @@ function SingleCourse({ navigation }) {
           style: { color: '#fff', fontSize: 20 }
         }}
         rightComponent={<Signout />}
+        leftComponent={
+          <TouchableOpacity onPress={() => navigation.navigate('MyCourses')}>
+            <FontAwesome name="arrow-left" size={25} color="#fff" />
+          </TouchableOpacity>
+        }
         containerStyle={{
           backgroundColor: '#2f72da'
         }}
       />
       <Card
-        containerStyle={{ borderColor: data.course.color, marginBottom: 20 }}
+        containerStyle={{
+          backgroundColor: data.course.color,
+          marginBottom: 20,
+          shadowOpacity: 0.75,
+          shadowRadius: 5,
+          shadowColor: '#2E2E2E',
+          shadowOffset: { height: 0, width: 0 }
+        }}
       >
         <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
           <Text style={{ fontWeight: 'bold' }}>Course Name</Text>
@@ -109,35 +129,38 @@ function SingleCourse({ navigation }) {
         ) : (
           <>
             <HTML html={data.course.description.substring(0, 100)} />
-            <Tooltip
-              popover={<HTML html={data.course.description} />}
-              overlayColor="#dbdce1"
-              backgroundColor="transparent"
-              withPointer={false}
-              width={300}
-              height={100}
-            >
-              <FontAwesome
-                style={{ textAlign: 'center' }}
-                name="ellipsis-h"
-                size={30}
-                color="#dbdce1"
-              />
-            </Tooltip>
+
+            <FontAwesome
+              style={{ textAlign: 'center' }}
+              name="ellipsis-h"
+              size={30}
+              color="#dbdce1"
+              onPress={() => setVisible(!visible)}
+            />
           </>
         )}
       </Card>
-
+      <Overlay
+        isVisible={visible}
+        windowBackgroundColor="#2f72da"
+        overlayBackgroundColor="#fff"
+        width="auto"
+        height="auto"
+        onBackdropPress={() => setVisible(false)}
+      >
+        <HTML html={data.course.description} />
+      </Overlay>
       <Text
         style={{
           textAlign: 'center',
           fontSize: 18,
-          fontWeight: 'bold'
+          fontWeight: 'bold',
+          marginBottom: 10
         }}
       >
         Assignments
       </Text>
-
+      <Divider />
       <ScrollView>
         <FlatList
           data={eventsByDate}
@@ -146,6 +169,13 @@ function SingleCourse({ navigation }) {
             return (
               <>
                 <ListItem
+                  style={{
+                    marginBottom: 20,
+                    shadowOpacity: 0.5,
+                    shadowRadius: 4,
+                    shadowColor: '#2E2E2E',
+                    shadowOffset: { height: 0, width: 0 }
+                  }}
                   roundAvatar
                   title={
                     <View>

@@ -116,7 +116,11 @@ function MyCalendar({ navigation }) {
   return (
     <View style={styles.container}>
       <Header
-        // leftComponent={{ icon: 'menu', color: '#fff' }}
+        leftComponent={
+          <TouchableOpacity onPress={() => navigation.navigate('MyCourses')}>
+            <FontAwesome name="arrow-left" size={25} color="#fff" />
+          </TouchableOpacity>
+        }
         centerComponent={{
           text: 'Syllabi',
           style: { color: '#fff', fontSize: 20 }
@@ -164,7 +168,16 @@ function MyCalendar({ navigation }) {
                   {format(new Date(item.end), 'EEE')}
                 </Text>
               </View>
-              <Card containerStyle={{ width: '80%' }}>
+              <Card
+                containerStyle={{
+                  width: '80%',
+                  marginBottom: 20,
+                  shadowOpacity: 0.5,
+                  shadowRadius: 4,
+                  shadowColor: '#2E2E2E',
+                  shadowOffset: { height: 0, width: 0 }
+                }}
+              >
                 <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
                   <Avatar
                     rounded
@@ -210,7 +223,15 @@ function MyCalendar({ navigation }) {
         // specify what should be rendered instead of ActivityIndicator
         renderEmptyData={() => {
           return (
-            <Card>
+            <Card
+              containerStyle={{
+                marginBottom: 20,
+                shadowOpacity: 0.5,
+                shadowRadius: 4,
+                shadowColor: '#2E2E2E',
+                shadowOffset: { height: 0, width: 0 }
+              }}
+            >
               <Text style={{ textAlign: 'center', fontSize: 20 }}>
                 No assignments on this date
               </Text>

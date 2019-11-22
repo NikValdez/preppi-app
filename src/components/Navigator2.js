@@ -42,7 +42,7 @@ const Navigator = createBottomTabNavigator(
     Home: {
       screen: stack,
       navigationOptions: {
-        // tabBarVisible: false,
+        tabBarVisible: false,
         tabBarOnPress: () => {}
       }
     },

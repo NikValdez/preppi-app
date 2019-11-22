@@ -1,8 +1,7 @@
 import React from 'react'
-import { Button } from 'react-native-elements'
 import { withNavigation } from 'react-navigation'
 import { Text, TouchableOpacity } from 'react-native'
-var RCTNetworking = require('RCTNetworking')
+import RCTNetworking from 'RCTNetworking'
 
 function Signout({ navigation }) {
   const clearCookies = () => {
@@ -13,7 +12,9 @@ function Signout({ navigation }) {
   }
   return (
     <TouchableOpacity>
-      <Text onPress={clearCookies}>Logout</Text>
+      <Text style={{ color: '#fff' }} onPress={clearCookies}>
+        Logout
+      </Text>
     </TouchableOpacity>
   )
 }

@@ -41,16 +41,11 @@ function MyCourses({ navigation }) {
   if (loading) return <Text>Loading...</Text>
   if (error) return <Text>`Error! ${error.message}`</Text>
 
-  const removeToken = () => {
-    signout()
-    props.navigation.navigate('Home')
-  }
   const courseData = data.me.myCourses.map(course => course)
 
   return (
     <View>
       <Header
-        // leftComponent={{ icon: 'menu', color: '#fff' }}
         centerComponent={{
           text: 'Syllabi',
           style: { color: '#fff', fontSize: 20 }
@@ -73,14 +68,22 @@ function MyCourses({ navigation }) {
                 navigation.navigate('SingleCourse', { id: item.courses.id })
               }
             >
-              <Card containerStyle={{ borderColor: item.courses.color }}>
+              <Card
+                containerStyle={{
+                  backgroundColor: item.courses.color,
+                  marginBottom: 20,
+                  shadowOpacity: 0.75,
+                  shadowRadius: 5,
+                  shadowColor: '#2E2E2E',
+                  shadowOffset: { height: 0, width: 0 }
+                }}
+              >
                 <ListItem chevron title={item.courses.title} />
               </Card>
             </TouchableOpacity>
           )
         }}
       />
-      {/* <Button onPress={removeToken} title="logout" /> */}
     </View>
   )
 }
