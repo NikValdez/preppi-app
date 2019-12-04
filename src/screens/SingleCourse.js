@@ -15,7 +15,8 @@ import {
   Tooltip,
   Header,
   Button,
-  Overlay
+  Overlay,
+  Icon
 } from 'react-native-elements'
 import HTML from 'react-native-render-html'
 import { gql } from 'apollo-boost'
@@ -63,6 +64,7 @@ const SINGLE_COURSE_QUERY = gql`
 
 function SingleCourse({ navigation }) {
   const [visible, setVisible] = useState(false)
+  const [assignmentVisible, setAssignmentVisible] = useState(false)
   const { loading, error, data } = useQuery(SINGLE_COURSE_QUERY, {
     variables: { id: navigation.getParam('id') }
   })
@@ -85,7 +87,7 @@ function SingleCourse({ navigation }) {
       <Header
         // leftComponent={{ icon: 'menu', color: '#fff' }}
         centerComponent={{
-          text: 'Syllabi',
+          text: data.course.title,
           style: { color: '#fff', fontSize: 20 }
         }}
         rightComponent={<Signout />}
@@ -100,43 +102,47 @@ function SingleCourse({ navigation }) {
       />
       <Card
         containerStyle={{
-          backgroundColor: data.course.color,
+          // backgroundColor: data.course.color,
           marginBottom: 20,
           shadowOpacity: 0.75,
           shadowRadius: 5,
-          shadowColor: '#2E2E2E',
-          shadowOffset: { height: 0, width: 0 }
+          shadowColor: data.course.color,
+          shadowOffset: { height: 0, width: 0 },
+          padding: 10
         }}
       >
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-          <Text style={{ fontWeight: 'bold' }}>Course Name</Text>
-          <Text style={{ marginLeft: 'auto' }}>{data.course.title}</Text>
-        </View>
-        <Divider />
         <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
           <Text style={{ fontWeight: 'bold' }}>Instructor</Text>
           <Text style={{ marginLeft: 'auto' }}>{data.course.courseCode}</Text>
         </View>
-        <Divider />
+        <Divider style={{ backgroundColor: data.course.color }} />
         <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
           <Text style={{ fontWeight: 'bold' }}>Room</Text>
           <Text style={{ marginLeft: 'auto' }}>{data.course.credits}</Text>
         </View>
-        <Divider />
+        <Divider style={{ backgroundColor: data.course.color }} />
         <Text style={{ fontWeight: 'bold' }}>Description</Text>
         {data.course.description.length < 100 ? (
           <HTML html={data.course.description} />
         ) : (
           <>
             <HTML html={data.course.description.substring(0, 100)} />
-
-            <FontAwesome
-              style={{ textAlign: 'center' }}
-              name="ellipsis-h"
-              size={30}
-              color="#dbdce1"
-              onPress={() => setVisible(!visible)}
-            />
+            <View
+              style={{
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              <Icon
+                raised
+                name="ellipsis-h"
+                type="font-awesome"
+                color="#2f72da"
+                size={20}
+                onPress={() => setVisible(!visible)}
+              />
+            </View>
           </>
         )}
       </Card>
@@ -155,7 +161,9 @@ function SingleCourse({ navigation }) {
           textAlign: 'center',
           fontSize: 18,
           fontWeight: 'bold',
-          marginBottom: 10
+          marginBottom: 10,
+          marginTop: 20,
+          color: '#2f72da'
         }}
       >
         Assignments
@@ -193,7 +201,25 @@ function SingleCourse({ navigation }) {
                     ) : (
                       <>
                         <HTML html={item.description.substring(0, 100)} />
-                        <Tooltip
+                        <Icon
+                          raised
+                          name="ellipsis-h"
+                          type="font-awesome"
+                          color="#2f72da"
+                          onPress={() => setVisible(true)}
+                          size={12}
+                        />
+                        <Overlay
+                          isVisible={assignmentVisible}
+                          windowBackgroundColor="#2f72da"
+                          overlayBackgroundColor="#fff"
+                          width="auto"
+                          height="auto"
+                          onBackdropPress={() => setAssignmentVisible(false)}
+                        >
+                          <HTML html={item.description} />
+                        </Overlay>
+                        {/* <Tooltip
                           popover={<HTML html={item.description} />}
                           overlayColor="#dbdce1"
                           backgroundColor="transparent"
@@ -207,7 +233,7 @@ function SingleCourse({ navigation }) {
                             size={30}
                             color="#dbdce1"
                           />
-                        </Tooltip>
+                        </Tooltip> */}
                       </>
                     )
                   }

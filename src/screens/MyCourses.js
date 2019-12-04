@@ -8,11 +8,11 @@ import {
 } from 'react-native'
 import { useQuery } from '@apollo/react-hooks'
 import { gql } from 'apollo-boost'
-import { Header, Button, ListItem, Divider, Card } from 'react-native-elements'
-import { getToken, signout } from '../utils'
+import { Header, PricingCard } from 'react-native-elements'
 import { NavigationEvents } from 'react-navigation'
-import { FontAwesome } from '@expo/vector-icons'
 import Signout from '../components/Signout'
+import DeleteMyCourse from '../components/DeleteMyCourse'
+import SearchContainer from '../components/SearchContainer'
 
 const MY_COURSES_QUERY = gql`
   query {
@@ -47,7 +47,7 @@ function MyCourses({ navigation }) {
     <View>
       <Header
         centerComponent={{
-          text: 'Syllabi',
+          text: 'My Courses',
           style: { color: '#fff', fontSize: 20 }
         }}
         rightComponent={<Signout />}
@@ -55,32 +55,50 @@ function MyCourses({ navigation }) {
           backgroundColor: '#2f72da'
         }}
       />
-      <Text h1 style={styles.title}>
+      {/* <Text h1 style={styles.title}>
         <FontAwesome name="user" size={40} color="#2f72da" />{' '}
-      </Text>
+      </Text> */}
+      <SearchContainer />
       <FlatList
+        numColumns={2}
         data={courseData}
         keyExtractor={item => item.courses.id}
         renderItem={({ item }) => {
           return (
-            <TouchableOpacity
-              onPress={() =>
-                navigation.navigate('SingleCourse', { id: item.courses.id })
-              }
-            >
-              <Card
-                containerStyle={{
-                  backgroundColor: item.courses.color,
-                  marginBottom: 20,
-                  shadowOpacity: 0.75,
-                  shadowRadius: 5,
-                  shadowColor: '#2E2E2E',
-                  shadowOffset: { height: 0, width: 0 }
-                }}
+            <>
+              <TouchableOpacity
+                onPress={() =>
+                  navigation.navigate('SingleCourse', { id: item.courses.id })
+                }
               >
-                <ListItem chevron title={item.courses.title} />
-              </Card>
-            </TouchableOpacity>
+                <View
+                  style={{
+                    alignItems: 'flex-end',
+                    marginBottom: -20,
+                    marginTop: 20
+                  }}
+                >
+                  <DeleteMyCourse id={item.id} />
+                </View>
+                <PricingCard
+                  containerStyle={{ maxWidth: 160, minWidth: 150 }}
+                  color={item.courses.color}
+                  title={item.courses.title}
+                  info={[item.courses.courseCode]}
+                  button={{
+                    title: ' Details',
+                    icon: 'list',
+                    titleStyle: { fontSize: 15 }
+                  }}
+                  onButtonPress={() =>
+                    navigation.navigate('SingleCourse', { id: item.courses.id })
+                  }
+                  titleStyle={{
+                    fontSize: 20
+                  }}
+                />
+              </TouchableOpacity>
+            </>
           )
         }}
       />

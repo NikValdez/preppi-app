@@ -122,7 +122,7 @@ function MyCalendar({ navigation }) {
           </TouchableOpacity>
         }
         centerComponent={{
-          text: 'Syllabi',
+          text: 'Calendar',
           style: { color: '#fff', fontSize: 20 }
         }}
         rightComponent={<Signout />}
