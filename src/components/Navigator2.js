@@ -58,7 +58,7 @@ const Navigator = createBottomTabNavigator(
         marginBottom: -10
       },
       style: {
-        backgroundColor: '#2f72da'
+        backgroundColor: 'transparent'
       }
     }
   }

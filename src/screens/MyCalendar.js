@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import {
   Text,
   View,
@@ -17,10 +17,10 @@ import {
   Card,
   Tooltip,
   Avatar,
-  PricingCard
+  PricingCard,
+  Overlay,
+  Icon
 } from 'react-native-elements'
-import { getToken, signout } from '../utils'
-import { NavigationEvents } from 'react-navigation'
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars'
 import { format } from 'date-fns'
 import HTML from 'react-native-render-html'
@@ -76,8 +76,9 @@ const CURRENT_USER_QUERY_COURSES_EVENTS = gql`
 `
 
 function MyCalendar({ navigation }) {
-  const { loading, error, data } = useQuery(CURRENT_USER_QUERY_COURSES_EVENTS)
   const [expand, setExpand] = useState(false)
+
+  const { loading, error, data } = useQuery(CURRENT_USER_QUERY_COURSES_EVENTS)
   if (loading)
     return (
       <View style={[styles.container, styles.horizontal]}>
@@ -111,8 +112,6 @@ function MyCalendar({ navigation }) {
     return acc
   }, {})
 
-  // console.log(events())
-
   return (
     <View style={styles.container}>
       <Header
@@ -127,7 +126,7 @@ function MyCalendar({ navigation }) {
         }}
         rightComponent={<Signout />}
         containerStyle={{
-          backgroundColor: '#2f72da'
+          backgroundColor: 'transparent'
         }}
       />
       <Agenda
@@ -143,15 +142,6 @@ function MyCalendar({ navigation }) {
         onCalendarToggled={calendarOpened => {
           // console.log(calendarOpened)
         }}
-        // callback that gets called on day press
-        // onDayPress={day => {
-        //   console.log('day pressed')
-        // }}
-        // callback that gets called when day changes while scrolling agenda list
-        // onDayChange={day => {
-        //   console.log('day changed')
-        // }}
-        // initially selected day
         selected={new Date()}
         renderItem={(item, firstItemInDay) => {
           return <View />
@@ -192,18 +182,30 @@ function MyCalendar({ navigation }) {
                     <HTML html={item.description.substring(0, 100)} />
 
                     <Tooltip
-                      popover={<HTML html={item.description} />}
-                      overlayColor="#dbdce1"
+                      containerStyle={{
+                        position: 'absolute',
+                        top: 200,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                      }}
+                      popover={
+                        <View>
+                          <HTML html={item.description} />
+                        </View>
+                      }
                       backgroundColor="transparent"
-                      withPointer={false}
                       width={300}
-                      height={100}
+                      overlayColor="white"
                     >
-                      <FontAwesome
-                        style={{ textAlign: 'center' }}
+                      <Icon
+                        raised
                         name="ellipsis-h"
-                        size={30}
-                        color="#dbdce1"
+                        type="font-awesome"
+                        color="#2f72da"
+                        size={12}
                       />
                     </Tooltip>
                   </View>

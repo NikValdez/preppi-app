@@ -4,12 +4,12 @@ import {
   View,
   FlatList,
   StyleSheet,
-  TouchableOpacity
+  TouchableOpacity,
+  ImageBackground
 } from 'react-native'
 import { useQuery } from '@apollo/react-hooks'
 import { gql } from 'apollo-boost'
 import { Header, PricingCard } from 'react-native-elements'
-import { NavigationEvents } from 'react-navigation'
 import Signout from '../components/Signout'
 import DeleteMyCourse from '../components/DeleteMyCourse'
 import SearchContainer from '../components/SearchContainer'
@@ -52,12 +52,10 @@ function MyCourses({ navigation }) {
         }}
         rightComponent={<Signout />}
         containerStyle={{
-          backgroundColor: '#2f72da'
+          backgroundColor: 'transparent'
         }}
       />
-      {/* <Text h1 style={styles.title}>
-        <FontAwesome name="user" size={40} color="#2f72da" />{' '}
-      </Text> */}
+
       <SearchContainer />
       <FlatList
         numColumns={2}
@@ -81,7 +79,22 @@ function MyCourses({ navigation }) {
                   <DeleteMyCourse id={item.id} />
                 </View>
                 <PricingCard
-                  containerStyle={{ maxWidth: 160, minWidth: 150 }}
+                  containerStyle={{
+                    maxWidth: 160,
+                    minWidth: 150,
+                    borderRadius: 5,
+                    borderColor: '#ffff',
+                    backgroundColor: '#4d53b6',
+                    shadowColor: '#ecf0f6',
+                    shadowOffset: {
+                      width: 0,
+                      height: 5
+                    },
+                    shadowOpacity: 0.36,
+                    shadowRadius: 6.68,
+
+                    elevation: 11
+                  }}
                   color={item.courses.color}
                   title={item.courses.title}
                   info={[item.courses.courseCode]}
@@ -91,8 +104,11 @@ function MyCourses({ navigation }) {
                     titleStyle: { fontSize: 15 }
                   }}
                   onButtonPress={() =>
-                    navigation.navigate('SingleCourse', { id: item.courses.id })
+                    navigation.navigate('SingleCourse', {
+                      id: item.courses.id
+                    })
                   }
+                  infoStyle={{ color: 'white' }}
                   titleStyle={{
                     fontSize: 20
                   }}
@@ -110,6 +126,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 50
+  },
+  imgBackground: {
+    width: '100%',
+    height: '100%',
+    flex: 1
   },
   title: {
     textAlign: 'center',

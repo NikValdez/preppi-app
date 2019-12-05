@@ -23,6 +23,7 @@ import { gql } from 'apollo-boost'
 import { FontAwesome } from '@expo/vector-icons'
 import { format } from 'date-fns'
 import Signout from '../components/Signout'
+import { LinearGradient } from 'expo-linear-gradient'
 
 const SINGLE_COURSE_QUERY = gql`
   query SINGLE_COURSE_QUERY($id: ID!) {
@@ -100,6 +101,7 @@ function SingleCourse({ navigation }) {
           backgroundColor: '#2f72da'
         }}
       />
+
       <Card
         containerStyle={{
           // backgroundColor: data.course.color,
@@ -108,25 +110,37 @@ function SingleCourse({ navigation }) {
           shadowRadius: 5,
           shadowColor: data.course.color,
           shadowOffset: { height: 0, width: 0 },
-          padding: 10
+          padding: 10,
+          backgroundColor: '#3785f4',
+          borderRadius: 5
         }}
       >
         <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-          <Text style={{ fontWeight: 'bold' }}>Instructor</Text>
-          <Text style={{ marginLeft: 'auto' }}>{data.course.courseCode}</Text>
+          <Text style={{ fontWeight: 'bold', color: 'white' }}>Instructor</Text>
+          <Text style={{ marginLeft: 'auto', color: 'white' }}>
+            {data.course.courseCode}
+          </Text>
         </View>
-        <Divider style={{ backgroundColor: data.course.color }} />
+        <Divider style={{ backgroundColor: 'white' }} />
         <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-          <Text style={{ fontWeight: 'bold' }}>Room</Text>
-          <Text style={{ marginLeft: 'auto' }}>{data.course.credits}</Text>
+          <Text style={{ fontWeight: 'bold', color: 'white' }}>Room</Text>
+          <Text style={{ marginLeft: 'auto', color: 'white' }}>
+            {data.course.credits}
+          </Text>
         </View>
-        <Divider style={{ backgroundColor: data.course.color }} />
-        <Text style={{ fontWeight: 'bold' }}>Description</Text>
+        <Divider style={{ backgroundColor: 'white' }} />
+        <Text style={{ fontWeight: 'bold', color: 'white' }}>Description</Text>
         {data.course.description.length < 100 ? (
-          <HTML html={data.course.description} />
+          <HTML
+            html={data.course.description}
+            baseFontStyle={{ color: 'white' }}
+          />
         ) : (
           <>
-            <HTML html={data.course.description.substring(0, 100)} />
+            <HTML
+              html={data.course.description.substring(0, 100)}
+              baseFontStyle={{ color: 'white' }}
+            />
             <View
               style={{
                 flex: 1,
@@ -154,7 +168,10 @@ function SingleCourse({ navigation }) {
         height="auto"
         onBackdropPress={() => setVisible(false)}
       >
-        <HTML html={data.course.description} />
+        <HTML
+          html={data.course.description}
+          baseFontStyle={{ color: 'white' }}
+        />
       </Overlay>
       <Text
         style={{
@@ -175,32 +192,47 @@ function SingleCourse({ navigation }) {
           keyExtractor={item => item.id}
           renderItem={({ item }) => {
             return (
-              <>
+              <View style={{ marginRight: 10, marginLeft: 10 }}>
                 <ListItem
-                  style={{
+                  containerStyle={{
                     marginBottom: 20,
                     shadowOpacity: 0.5,
                     shadowRadius: 4,
                     shadowColor: '#2E2E2E',
-                    shadowOffset: { height: 0, width: 0 }
+                    shadowOffset: { height: 0, width: 0 },
+                    backgroundColor: '#3785f4',
+                    borderRadius: 5
                   }}
                   roundAvatar
                   title={
                     <View>
-                      <Text style={{ textAlign: 'right' }}>
+                      <Text style={{ textAlign: 'right', color: 'white' }}>
                         {format(new Date(item.end), 'MM/dd/yyyy')}
                       </Text>
-                      <Text style={{ textAlign: 'center', fontSize: 18 }}>
+                      <Text
+                        style={{
+                          textAlign: 'center',
+                          fontSize: 18,
+                          color: 'white'
+                        }}
+                      >
                         {item.title}
                       </Text>
                     </View>
                   }
                   subtitle={
                     item.description.length < 100 ? (
-                      <HTML html={item.description} />
+                      <HTML
+                        html={item.description}
+                        baseFontStyle={{ color: 'white' }}
+                      />
                     ) : (
                       <>
-                        <HTML html={item.description.substring(0, 100)} />
+                        <HTML
+                          html={item.description.substring(0, 100)}
+                          baseFontStyle={{ color: 'white' }}
+                        />
+
                         <Icon
                           raised
                           name="ellipsis-h"
@@ -219,27 +251,12 @@ function SingleCourse({ navigation }) {
                         >
                           <HTML html={item.description} />
                         </Overlay>
-                        {/* <Tooltip
-                          popover={<HTML html={item.description} />}
-                          overlayColor="#dbdce1"
-                          backgroundColor="transparent"
-                          withPointer={false}
-                          width={300}
-                          height={100}
-                        >
-                          <FontAwesome
-                            style={{ textAlign: 'center' }}
-                            name="ellipsis-h"
-                            size={30}
-                            color="#dbdce1"
-                          />
-                        </Tooltip> */}
                       </>
                     )
                   }
                   bottomDivider
                 />
-              </>
+              </View>
             )
           }}
         />

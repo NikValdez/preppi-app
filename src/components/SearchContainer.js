@@ -1,14 +1,12 @@
 import React, { useState } from 'react'
 import { Icon, Overlay } from 'react-native-elements'
-import { View, Text } from 'react-native'
+import { View, Text, ImageBackground, StyleSheet } from 'react-native'
 import SearchCourses from './SearchCourses'
+import Pattern from '../images/pattern.jpg'
 
 function SearchContainer() {
   const [overlay, setOverlay] = useState(false)
 
-  const handleOverlay = () => {
-    setOverlay(true)
-  }
   return (
     <View style={{ alignItems: 'flex-end' }}>
       <Icon
@@ -19,7 +17,7 @@ function SearchContainer() {
         onPress={() => setOverlay(true)}
       />
       {overlay && (
-        <Overlay isVisible fullScreen={true}>
+        <Overlay isVisible fullScreen={true} overlayBackgroundColor="#edeced69">
           <View>
             <View style={{ alignItems: 'flex-end', marginTop: 25 }}>
               <Icon

@@ -1,21 +1,16 @@
-import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import React from 'react'
+import { View, ImageBackground, StyleSheet } from 'react-native'
 import { ApolloClient } from 'apollo-boost'
 import { InMemoryCache } from 'apollo-boost'
 import { HttpLink } from 'apollo-boost'
 import { ApolloProvider } from '@apollo/react-hooks'
-import Navigator from './src/components/Navigator'
-import { setContext } from 'apollo-link-context'
-import { getToken, signout } from './src/utils'
-import { AsyncStorage } from 'react-native'
-import { Header, Button } from 'react-native-elements'
-import { TouchableOpacity } from 'react-native-gesture-handler'
-import { gql } from 'apollo-boost'
-import { useQuery } from '@apollo/react-hooks'
+
 import IsSignedIn from './src/screens/IsSignedIn'
+import { DEV_ENDPOINT } from 'react-native-dotenv'
+import Pattern from './src/images/pattern.jpg'
 
 const httpLink = new HttpLink({
-  uri: 'http://localhost:4444',
+  uri: DEV_ENDPOINT,
   credentials: 'include'
 })
 
@@ -28,14 +23,28 @@ const client = new ApolloClient({
 })
 
 function App({ navigation }) {
+  console.log(DEV_ENDPOINT)
   return (
-    <View style={{ flex: 1 }}>
-      <ApolloProvider client={client}>
-        <IsSignedIn />
-        {/* <Navigator /> */}
-      </ApolloProvider>
-    </View>
+    <ImageBackground
+      style={styles.imgBackground}
+      resizeMode="cover"
+      source={Pattern}
+    >
+      <View style={{ flex: 1 }}>
+        <ApolloProvider client={client}>
+          <IsSignedIn />
+        </ApolloProvider>
+      </View>
+    </ImageBackground>
   )
 }
+
+const styles = StyleSheet.create({
+  imgBackground: {
+    width: '100%',
+    height: '100%',
+    flex: 1
+  }
+})
 
 export default App
