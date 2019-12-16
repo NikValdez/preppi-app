@@ -23,7 +23,6 @@ const client = new ApolloClient({
 })
 
 function App({ navigation }) {
-  console.log(DEV_ENDPOINT)
   return (
     <ImageBackground
       style={styles.imgBackground}

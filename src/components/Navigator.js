@@ -1,20 +1,18 @@
 import React from 'react'
-import Courses from '../screens/Courses'
 import MyCourses from '../screens/MyCourses'
 import Signin from '../screens/Signin'
 import SingleCourse from '../screens/SingleCourse'
-import Me from '../screens/Me'
 import { createStackNavigator } from 'react-navigation-stack'
-
 import { createAppContainer } from 'react-navigation'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import MyCalendar from '../screens/MyCalendar'
 import { FontAwesome } from '@expo/vector-icons'
 
-const stack = createStackNavigator(
+const Stack = createStackNavigator(
   {
     Home: Signin,
-    SingleCourse: SingleCourse
+    SingleCourse: SingleCourse,
+    Signin: Signin
   },
 
   {
@@ -24,17 +22,10 @@ const stack = createStackNavigator(
 
 const Navigator = createBottomTabNavigator(
   {
-    Home: {
-      screen: stack,
-      navigationOptions: {
-        tabBarVisible: false,
-        tabBarOnPress: () => {}
-      }
-    },
     MyCourses: {
       screen: MyCourses,
       navigationOptions: {
-        tabBarLabel: 'My Courses',
+        tabBarLabel: 'MyCourses',
         tabBarIcon: <FontAwesome name="user" size={30} color="#fff" />
       }
     },
@@ -45,8 +36,15 @@ const Navigator = createBottomTabNavigator(
         tabBarIcon: <FontAwesome name="calendar" size={27} color="#fff" />
       }
     },
+    Home: {
+      screen: Stack,
+      navigationOptions: {
+        tabBarVisible: false,
+        tabBarOnPress: () => {}
+      }
+    }
 
-    initialRouteName: 'Home'
+    // initialRouteName: 'MyCourses'
   },
 
   {

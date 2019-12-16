@@ -11,11 +11,11 @@ import { createBottomTabNavigator } from 'react-navigation-tabs'
 import MyCalendar from '../screens/MyCalendar'
 import { FontAwesome } from '@expo/vector-icons'
 
-const stack = createStackNavigator(
+const Stack = createStackNavigator(
   {
     Home: Signin,
-
-    SingleCourse: SingleCourse
+    SingleCourse: SingleCourse,
+    Signin: Signin
   },
 
   {
@@ -25,6 +25,13 @@ const stack = createStackNavigator(
 
 const Navigator = createBottomTabNavigator(
   {
+    Home: {
+      screen: Stack,
+      navigationOptions: {
+        tabBarVisible: false,
+        tabBarOnPress: () => {}
+      }
+    },
     MyCourses: {
       screen: MyCourses,
       navigationOptions: {
@@ -38,16 +45,7 @@ const Navigator = createBottomTabNavigator(
         tabBarLabel: 'My Calendar',
         tabBarIcon: <FontAwesome name="calendar" size={27} color="#fff" />
       }
-    },
-    Home: {
-      screen: stack,
-      navigationOptions: {
-        tabBarVisible: false,
-        tabBarOnPress: () => {}
-      }
-    },
-
-    initialRouteName: 'MyCourses'
+    }
   },
 
   {

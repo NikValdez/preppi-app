@@ -1,4 +1,4 @@
-import { Text, Button, Input } from 'react-native-elements'
+import { Text, Button, Input, Card } from 'react-native-elements'
 import { StyleSheet, View, Image, ImageBackground } from 'react-native'
 import Spacer from '../components/Spacer'
 import { login } from '../utils'
@@ -57,44 +57,60 @@ class Signin extends Component {
         <View style={styles.container}>
           <Image
             source={Syllabi}
-            style={{ width: 50, height: 50, marginBottom: 20 }}
-          />
-          <Text style={styles.title}>Sign in</Text>
-          <Input
-            value={this.state.email}
-            onChangeText={email => this.setState({ email })}
-            placeholder={'Email'}
-            inputStyle={styles.input}
-          />
-          <Spacer />
-          <Input
-            value={this.state.password}
-            onChangeText={password => this.setState({ password })}
-            placeholder={'Password'}
-            secureTextEntry={true}
-            inputStyle={styles.input}
-          />
-          <Spacer />
-          <Button
-            buttonStyle={{ backgroundColor: 'white' }}
-            titleStyle={{
-              color: '#2f72da',
-              marginRight: 10,
-              fontWeight: 'bold'
+            style={{
+              width: 50,
+              height: 50
             }}
-            raised
-            title="Sign in"
-            onPress={this.submitForm}
-            style={styles.button}
-            icon={
-              <FontAwesome
-                size={30}
-                name="arrow-circle-right"
-                color="#2f72da"
-              />
-            }
-            iconRight
           />
+          <Card
+            containerStyle={{
+              width: '90%',
+
+              shadowOpacity: 0.5,
+              shadowRadius: 4,
+              shadowColor: '#2E2E2E',
+              shadowOffset: { height: 0, width: 0 },
+              backgroundColor: '#4d53b6',
+              borderRadius: 5
+            }}
+          >
+            <Text style={styles.title}>Sign in</Text>
+            <Input
+              value={this.state.email}
+              onChangeText={email => this.setState({ email })}
+              placeholder={'Email'}
+              inputStyle={styles.input}
+            />
+            <Spacer />
+            <Input
+              value={this.state.password}
+              onChangeText={password => this.setState({ password })}
+              placeholder={'Password'}
+              secureTextEntry={true}
+              inputStyle={styles.input}
+            />
+            <Spacer />
+            <Button
+              buttonStyle={{ backgroundColor: 'white' }}
+              titleStyle={{
+                color: '#4d53b6',
+                marginRight: 10,
+                fontWeight: 'bold'
+              }}
+              raised
+              title="Sign in"
+              onPress={this.submitForm}
+              style={styles.button}
+              icon={
+                <FontAwesome
+                  size={30}
+                  name="arrow-circle-right"
+                  color="#4d53b6"
+                />
+              }
+              iconRight
+            />
+          </Card>
         </View>
       </ImageBackground>
     )

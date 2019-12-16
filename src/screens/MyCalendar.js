@@ -165,21 +165,35 @@ function MyCalendar({ navigation }) {
                   shadowOpacity: 0.5,
                   shadowRadius: 4,
                   shadowColor: '#2E2E2E',
-                  shadowOffset: { height: 0, width: 0 }
+                  shadowOffset: { height: 0, width: 0 },
+                  backgroundColor: '#4d53b6',
+                  borderRadius: 5
                 }}
               >
-                <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-                  <Avatar
-                    rounded
-                    title={item.courseTitle[0]}
-                    overlayContainerStyle={{ backgroundColor: item.color }}
-                    titleStyle={{ color: 'black' }}
-                  />
-                  <Text style={{ marginLeft: 10 }}>{item.title}</Text>
+                <View>
+                  <Text
+                    style={{
+                      color: item.color,
+                      textAlign: 'center',
+                      marginBottom: 10,
+                      fontWeight: 'bold'
+                    }}
+                  >
+                    {item.courseTitle}
+                  </Text>
+                  <Text style={{ color: '#fff' }}>{item.title}</Text>
                 </View>
                 {item.description.length > 100 && !expand ? (
                   <View>
-                    <HTML html={item.description.substring(0, 100)} />
+                    <HTML
+                      html={item.description.substring(0, 100)}
+                      baseFontStyle={{ color: 'white' }}
+                      tagsStyles={{
+                        em: {
+                          color: 'white'
+                        }
+                      }}
+                    />
 
                     <Tooltip
                       containerStyle={{
@@ -227,14 +241,18 @@ function MyCalendar({ navigation }) {
           return (
             <Card
               containerStyle={{
+                backgroundColor: '#4d53b6',
                 marginBottom: 20,
                 shadowOpacity: 0.5,
                 shadowRadius: 4,
                 shadowColor: '#2E2E2E',
-                shadowOffset: { height: 0, width: 0 }
+                shadowOffset: { height: 0, width: 0 },
+                borderRadius: 5
               }}
             >
-              <Text style={{ textAlign: 'center', fontSize: 20 }}>
+              <Text
+                style={{ textAlign: 'center', fontSize: 20, color: '#fff' }}
+              >
                 No assignments on this date
               </Text>
             </Card>
@@ -254,9 +272,9 @@ function MyCalendar({ navigation }) {
         refreshControl={null}
         // agenda theme
         theme={{
-          selectedDayBackgroundColor: '#2f72da',
+          selectedDayBackgroundColor: '#4d53b6',
           // selectedDayTextColor: '#2f72da',
-          dotColor: '#2f72da'
+          dotColor: '#4d53b6'
         }}
       />
     </View>

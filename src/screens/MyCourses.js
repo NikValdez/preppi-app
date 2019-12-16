@@ -101,7 +101,7 @@ function MyCourses({ navigation }) {
                   button={{
                     title: ' Details',
                     icon: 'list',
-                    titleStyle: { fontSize: 15 }
+                    titleStyle: { fontSize: 15, color: '#4d53b6' }
                   }}
                   onButtonPress={() =>
                     navigation.navigate('SingleCourse', {

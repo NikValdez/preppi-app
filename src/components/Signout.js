@@ -7,8 +7,8 @@ function Signout({ navigation }) {
   const clearCookies = () => {
     RCTNetworking.clearCookies(cleared => {
       console.log(cleared)
+      navigation.navigate('Signin')
     })
-    navigation.navigate('Home')
   }
   return (
     <TouchableOpacity>

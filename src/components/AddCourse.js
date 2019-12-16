@@ -34,7 +34,7 @@ class AddCourse extends Component {
                 raised
                 name="plus"
                 type="font-awesome"
-                color="#2f72da"
+                color="#4d53b6"
                 size={15}
                 onPress={() => {
                   addCourseToUser()

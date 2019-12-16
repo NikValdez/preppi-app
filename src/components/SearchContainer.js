@@ -13,7 +13,7 @@ function SearchContainer() {
         raised
         name="search-plus"
         type="font-awesome"
-        color="#2f72da"
+        color="#4d53b6"
         onPress={() => setOverlay(true)}
       />
       {overlay && (
@@ -24,7 +24,7 @@ function SearchContainer() {
                 raised
                 name="close"
                 type="font-awesome"
-                color="#2f72da"
+                color="#4d53b6"
                 onPress={() => setOverlay(false)}
               />
             </View>

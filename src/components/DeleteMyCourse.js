@@ -29,11 +29,15 @@ class DeleteMyCourse extends Component {
               raised
               name="close"
               type="font-awesome"
-              color="#2f72da"
+              color="#4d53b6"
               onPress={() => this.setState({ isVisible: true })}
               size={12}
             />
-            <Overlay isVisible={this.state.isVisible}>
+            <Overlay
+              isVisible={this.state.isVisible}
+              windowBackgroundColor="#4d53b6a6"
+              overlayBackgroundColor="transparent"
+            >
               <View
                 style={{
                   flex: 1,
@@ -42,15 +46,23 @@ class DeleteMyCourse extends Component {
                 }}
               >
                 <Button
+                  buttonStyle={{
+                    backgroundColor: '#fff'
+                  }}
+                  raised
                   title="Remove Course"
-                  icon={<Icon name="delete" size={20} color="white" />}
+                  titleStyle={{ color: '#4d53b6', fontWeight: 'bold' }}
+                  icon={<Icon name="delete" size={20} color="#4d53b6" />}
                   onPress={() => deleteMyCourse()}
                 />
                 <Spacer />
 
                 <Button
+                  raised
+                  buttonStyle={{ backgroundColor: '#fff' }}
                   title=" Cancel"
-                  icon={<Icon name="cancel" size={20} color="white" />}
+                  titleStyle={{ color: '#4d53b6', fontWeight: 'bold' }}
+                  icon={<Icon name="cancel" size={20} color="#4d53b6" />}
                   onPress={() => this.setState({ isVisible: false })}
                 />
               </View>
@@ -63,13 +75,3 @@ class DeleteMyCourse extends Component {
 }
 
 export default DeleteMyCourse
-
-// Alert.alert(
-//   'Remove Course From List',
-//   '',
-//   [
-//     { text: 'NO', onPress: () => null },
-//     { text: 'YES', onPress: () => deleteMyCourse() }
-//   ],
-//   { cancelable: true }
-// )

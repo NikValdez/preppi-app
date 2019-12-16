@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import AuthNav from '../components/AuthNav'
 import Navigator from '../components/Navigator'
-import Navigator2 from '../components/Navigator2'
 import { gql } from 'apollo-boost'
 import { useQuery } from '@apollo/react-hooks'
-import Signin from './Signin'
-import MyCourses from './MyCourses'
 
 const ME_QUERY = gql`
   {
@@ -30,7 +28,7 @@ function IsSignedIn() {
   console.log(data)
   return (
     <View style={{ flex: 1 }}>
-      {data.me !== null ? <Navigator2 /> : <Navigator />}
+      {data.me !== null ? <Navigator /> : <AuthNav />}
     </View>
   )
 }

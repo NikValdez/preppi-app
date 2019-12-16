@@ -68,7 +68,15 @@ function SearchCourses() {
             search.length > 0) ||
           (course.courseCode.toLowerCase().includes(search.toLowerCase()) &&
             search.length > 0) ? (
-            <Card>
+            <Card
+              containerStyle={{
+                shadowOpacity: 0.75,
+                shadowRadius: 5,
+                shadowColor: '#bcbdbd',
+                shadowOffset: { height: 0, width: 0 },
+                borderRadius: 5
+              }}
+            >
               <ListItem
                 title={course.title}
                 rightAvatar={<AddCourse id={course.id} />}
@@ -90,7 +98,7 @@ function SearchCourses() {
             marginTop: 100
           }}
         >
-          <Icon name="search" type="font-awesome" color="#2f72da" size={200} />
+          <Icon name="search" type="font-awesome" color="#4d53b6" size={200} />
         </View>
       )}
     </>
