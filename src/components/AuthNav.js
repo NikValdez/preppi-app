@@ -1,11 +1,9 @@
 import React from 'react'
-import Courses from '../screens/Courses'
 import MyCourses from '../screens/MyCourses'
 import Signin from '../screens/Signin'
+import Signup from '../screens/Signup'
 import SingleCourse from '../screens/SingleCourse'
-import Me from '../screens/Me'
 import { createStackNavigator } from 'react-navigation-stack'
-
 import { createAppContainer } from 'react-navigation'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import MyCalendar from '../screens/MyCalendar'
@@ -15,11 +13,12 @@ const Stack = createStackNavigator(
   {
     Home: Signin,
     SingleCourse: SingleCourse,
-    Signin: Signin
+    Signin: Signin,
+    Signup: Signup
   },
 
   {
-    initialRouteName: 'Home'
+    initialRouteName: 'Signup'
   }
 )
 

@@ -37,14 +37,6 @@ class Signin extends Component {
     })
 
     await this.props.navigation.navigate('MyCourses')
-
-    // const { payload, error } = response.data.signin
-    // console.log(response.data.signin.id)
-
-    // await login(response.data.signin.id)
-
-    // this.setState({ email: '', password: '' })
-    // this.props.navigation.navigate('MyCourses')
   }
 
   render() {

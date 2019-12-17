@@ -10,6 +10,7 @@ function SearchContainer() {
   return (
     <View style={{ alignItems: 'flex-end' }}>
       <Icon
+        containerStyle={{ marginTop: 20 }}
         raised
         name="search-plus"
         type="font-awesome"
