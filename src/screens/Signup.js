@@ -1,5 +1,12 @@
 import { Text, Button, Input, Card } from 'react-native-elements'
-import { StyleSheet, View, Image, ImageBackground, Picker } from 'react-native'
+import {
+  StyleSheet,
+  View,
+  Image,
+  ImageBackground,
+  Picker,
+  Alert
+} from 'react-native'
 import Spacer from '../components/Spacer'
 import { login } from '../utils'
 import { gql } from 'apollo-boost'
@@ -90,12 +97,12 @@ class Signup extends Component {
   verifyCode = () => {
     if (this.state.verificationCode !== this.state.verify) {
       this.setState({ verificationCode: '' })
-      //   alert('Incorrect Verification Code')
+      Alert.alert('Incorrect Verification Code')
       throw new Error('Incorrect Verification Code')
     } else {
       if (this.state.password !== this.state.confirmPassword) {
         this.setState({ confirmPassword: '' })
-        // alert('Passwords do not match')
+        Alert.alert('Passwords do not match')
         throw new Error('Passwords do not match')
       }
     }
@@ -109,13 +116,13 @@ class Signup extends Component {
         source={Pattern}
       >
         <View style={styles.container}>
-          <Image
+          {/* <Image
             source={Syllabi}
             style={{
               width: 50,
               height: 50
             }}
-          />
+          /> */}
           <Card
             containerStyle={{
               width: '90%',
@@ -128,6 +135,13 @@ class Signup extends Component {
               borderRadius: 5
             }}
           >
+            <Button
+              containerStyle={{ alignSelf: 'flex-end' }}
+              titleStyle={{ color: 'white' }}
+              type="clear"
+              title="Sign in"
+              onPress={() => this.props.navigation.navigate('Signin')}
+            />
             <Text style={styles.title}>Sign up</Text>
             <Query query={INSTITUTIONS_QUERY}>
               {({ data, error, loading }) => {
@@ -189,6 +203,13 @@ class Signup extends Component {
             <Spacer />
 
             <Input
+              value={this.state.name}
+              onChangeText={name => this.setState({ name })}
+              placeholder={'Name'}
+              inputStyle={styles.input}
+            />
+            <Spacer />
+            <Input
               value={this.state.email}
               onChangeText={email => this.setState({ email })}
               placeholder={'Email'}
@@ -199,6 +220,16 @@ class Signup extends Component {
               value={this.state.password}
               onChangeText={password => this.setState({ password })}
               placeholder={'Password'}
+              secureTextEntry={true}
+              inputStyle={styles.input}
+            />
+            <Spacer />
+            <Input
+              value={this.state.confirmPassword}
+              onChangeText={confirmPassword =>
+                this.setState({ confirmPassword })
+              }
+              placeholder={'Confirm Password'}
               secureTextEntry={true}
               inputStyle={styles.input}
             />
@@ -244,7 +275,8 @@ const styles = StyleSheet.create({
   input: {
     width: 350,
     padding: 10,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    borderRadius: 5
   },
   title: {
     color: 'white',

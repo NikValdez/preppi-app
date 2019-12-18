@@ -45,6 +45,8 @@ class AddCourse extends Component {
                 animationType="fade"
                 transparent={true}
                 isVisible={this.state.modalVisible}
+                windowBackgroundColor="#4d53b6a6"
+                overlayBackgroundColor="#4d53b6"
               >
                 <View
                   style={{
@@ -54,7 +56,14 @@ class AddCourse extends Component {
                   }}
                 >
                   <Button
-                    icon={<Icon name="check-circle" size={20} color="white" />}
+                    buttonStyle={{
+                      backgroundColor: '#fff'
+                    }}
+                    raised
+                    titleStyle={{ color: '#4d53b6', fontWeight: 'bold' }}
+                    icon={
+                      <Icon name="check-circle" size={20} color="#4d53b6" />
+                    }
                     title=" Course Added"
                     onPress={() => {
                       this.setState({

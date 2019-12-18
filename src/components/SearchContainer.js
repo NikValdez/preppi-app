@@ -34,7 +34,7 @@ function SearchContainer() {
                 fontSize: 20,
                 fontWeight: '700',
                 textAlign: 'center',
-                color: '#2f72da'
+                color: '#4d53b6'
               }}
             >
               Search Courses

@@ -66,6 +66,13 @@ class Signin extends Component {
               borderRadius: 5
             }}
           >
+            <Button
+              containerStyle={{ alignSelf: 'flex-end' }}
+              titleStyle={{ color: 'white' }}
+              type="clear"
+              title="Register"
+              onPress={() => this.props.navigation.navigate('Signup')}
+            />
             <Text style={styles.title}>Sign in</Text>
             <Input
               value={this.state.email}
@@ -123,7 +130,8 @@ const styles = StyleSheet.create({
   input: {
     width: 350,
     padding: 10,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
+    borderRadius: 5
   },
   title: {
     color: 'white',
